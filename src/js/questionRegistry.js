@@ -26,45 +26,50 @@ export let questionRegistry = {
 		render: renderPecah,
 		setup: setupClickBtn,
 		check: defaultCheck,
-		afterCheck(lastElement, numberPicked, currentData) {
+		afterCorrect(lastElement, numberPicked, currentData) {
 			updateContent(lastElement.querySelector(".dialog p"), `Jadi, ${currentData.content.pelengkap} itu kita akan ambil dari ${currentData.answer}`)
 			updateContent(lastElement.querySelectorAll(".eqn")[1], numberPicked)
-		}
+		},
+
 	},
 	baki: {
 		render: renderBaki,
 		setup: setupClickBtn,
 		check: defaultCheck,
-		afterCheck(lastElement, numberPicked, currentData) {
+		afterCorrect(lastElement, numberPicked, currentData) {
 			updateContent(lastElement.querySelector(".dialog p"), `${currentData.content.options[1]} akan dipecahkan kepada ${currentData.content.pelengkap} dan ${currentData.answer}`)
 			updateContent(lastElement.querySelectorAll(".pecah")[1], numberPicked)
-		}
+		},
+
 	},
 	gabung: {
 		render: renderGabung,
 		setup: setupClickBtn,
 		check: defaultCheck,
-		afterCheck(lastElement, numberPicked, currentData) {
+		afterCorrect(lastElement, numberPicked, currentData) {
 			updateContent(lastElement.querySelector(".dialog p"), `${currentData.content.options[0]} tambah ${currentData.content.pelengkap} akan dapat ${currentData.answer}`)
 			updateContent(lastElement.querySelectorAll(".hasil")[0], numberPicked)
-		}
+		},
+
 	},
 	sum: {
 		render: renderSum,
 		setup: setupClickBtn,
 		check: defaultCheck,
-		afterCheck(lastElement, numberPicked, currentData) {
+		afterCorrect(lastElement, numberPicked, currentData) {
 			updateContent(lastElement.querySelector(".dialog p"), `Jadi, ${currentData.content.options[0] + currentData.content.pelengkap} tambah ${currentData.content.options[1] - currentData.content.pelengkap} akan dapat ${currentData.answer}`)
 			updateContent(lastElement.querySelectorAll(".jumlah")[0], `=${numberPicked}`)
-		}
+		},
+
 	},
 	summery: {
 		render: renderSummery,
 		setup: setupClickBtn,
 		check: defaultCheck,
-		afterCheck(lastElement, numberPicked, currentData) {
+		afterCorrect(lastElement, numberPicked, currentData) {
 			updateContent(lastElement.querySelector(".dialog p"), `Jadi, ${currentData.content.options[0]} tambah ${currentData.content.options[1]} akan dapat ${currentData.answer}`)
 			updateContent(lastElement.querySelectorAll(".jumlahAkhir")[0], `${numberPicked}`)
-		}
+		},
+
 	}
 }

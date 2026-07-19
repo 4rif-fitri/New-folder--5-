@@ -69,54 +69,58 @@ let json = [
 	},
 ]
 
-let lenghtDialog = json.length
-let index = 0
-let numberPicked = null
-let elementPicked = null
-let currentData = null
-let isReset = false
-
-let barFill = document.querySelector(".barFill")
-let viewport = document.getElementById("viewport");
-let btnCheck = document.querySelector(".btnCheck")
-let btnNext = document.querySelector(".btnNext")
-let btnContinue = document.querySelector(".btnContinue")
-let footer = document.querySelector("footer")
-let textFooter = document.querySelector(".textFooter")
-
-let question
-
-let showWrong = () =>{
-	btnContinue.classList.remove("green", "red");
-	
-	textFooter.textContent = "SALAH"
-	footer.classList.add("soft-red")
-	textFooter.classList.add("textRed")
-	btnContinue.classList.remove("hidden")
-	btnCheck.classList.add("hidden")
-	textFooter.classList.remove("hidden")
+let state = {
+	lenghtDialog: json.length,
+	index: 0,
+	numberPicked: null,
+	elementPicked: null,
+	currentData: null,
+	isReset: false,
+	question: null
 }
 
-let showCorrect = () => {
-	btnContinue.classList.remove("green", "red");
-
-	textFooter.textContent = "BETUL"
-	footer.classList.add("soft-green")
-	textFooter.classList.add("textGreen")
-	btnContinue.classList.remove("hidden")
-	btnCheck.classList.add("hidden")
-	textFooter.classList.remove("hidden")
+let ui = {
+	barFill: document.querySelector(".barFill"),
+	viewport: document.getElementById("viewport"),
+	btnCheck: document.querySelector(".btnCheck"),
+	btnNext: document.querySelector(".btnNext"),
+	btnContinue: document.querySelector(".btnContinue"),
+	footer: document.querySelector("footer"),
+	textFooter: document.querySelector(".textFooter"),
 }
+
+function showWrong() {
+	ui.btnContinue.classList.remove("green", "red");
+
+	ui.textFooter.textContent = "SALAH"
+	ui.footer.classList.add("soft-red")
+	ui.textFooter.classList.add("textRed")
+	ui.btnContinue.classList.remove("hidden")
+	ui.btnCheck.classList.add("hidden")
+	ui.textFooter.classList.remove("hidden")
+}
+
+function showCorrect() {
+	ui.btnContinue.classList.remove("green", "red");
+
+	ui.textFooter.textContent = "BETUL"
+
+	ui.footer.classList.add("soft-green")
+	ui.textFooter.classList.add("textGreen")
+	ui.textFooter.classList.remove("hidden")
+	ui.btnContinue.classList.remove("hidden")
+	ui.btnCheck.classList.add("hidden")
+}
+
 
 let hanldeContinue = () => {
 
-	textFooter.classList.toggle("hidden")
-	btnContinue.classList.toggle("hidden")
-	btnCheck.classList.toggle("hidden")
-	footer.classList.remove("soft-green")
-	footer.classList.remove("soft-red")
+	ui.textFooter.classList.toggle("hidden")
+	ui.btnContinue.classList.toggle("hidden")
+	ui.btnCheck.classList.toggle("hidden")
+	ui.footer.classList.remove("soft-green", "soft-red")
 
-	if (numberPicked == currentData.answer) {
+	if (state.numberPicked == state.currentData.answer) {
 		moveQuestion()
 	} else {
 		let allElements = document.querySelectorAll(".higlight");
@@ -124,31 +128,31 @@ let hanldeContinue = () => {
 		lastElement.classList.remove("higlight");
 	}
 
-	numberPicked = null;
-	isReset = false
+	state.numberPicked = null;
+	state.isReset = false
 }
 
 let hanldeCheck = () => {
-	if (numberPicked == null || isReset == true) return
-	isReset = true
+	if (state.numberPicked == null || state.isReset == true) return
+	state.isReset = true
 
-	if (question.check(numberPicked, currentData)) {
-
-		showCorrect()
+	if (state.question.check(state.numberPicked, state.currentData)) {
 
 		let lastElement = document.querySelector(".content:last-child");
 
-		question.afterCheck?.(lastElement, numberPicked, currentData);
+		showCorrect()
+
+		state.question.afterCorrect?.(lastElement, state.numberPicked, state.currentData);
 
 	} else {
 		showWrong()
 	}
 }
 
-let moveQuestion = (data = json[index++]) => {
+let moveQuestion = (data = json[state.index++]) => {
 
-	currentData = data
-	question = questionRegistry[currentData.type];
+	state.currentData = data
+	state.question = questionRegistry[state.currentData.type];
 
 	const lastContent = document.querySelector(".content:last-child");
 
@@ -161,13 +165,13 @@ let moveQuestion = (data = json[index++]) => {
 	let dialog = document.createElement("div");
 	dialog.className = "content fadeIn";
 
-	dialog.innerHTML = question.render(data);
+	dialog.innerHTML = state.question.render(data);
 	wrapper.appendChild(dialog);
 
-	question.setup(value => numberPicked = value,() => !isReset);
+	state.question.setup(value => state.numberPicked = value, () => !state.isReset);
 }
 
-btnCheck.addEventListener("click", hanldeCheck)
-btnContinue.addEventListener("click", hanldeContinue)
+ui.btnCheck.addEventListener("click", hanldeCheck)
+ui.btnContinue.addEventListener("click", hanldeContinue)
 
 moveQuestion()

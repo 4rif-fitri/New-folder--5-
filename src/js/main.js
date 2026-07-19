@@ -1,14 +1,4 @@
-import { renderPick } from "./render/pick.js";
-import { renderNeeded } from "./render/needed.js";
-import { renderPecah } from "./render/pecah.js";
-import { renderBaki } from "./render/baki.js";
-import { renderGabung } from "./render/gabung.js";
-import { renderSum } from "./render/sum.js";
-import { renderSummery } from "./render/summery.js";
-
-import { setupPick } from "./logic/pickLogic.js";
-import { setupClickBtn } from "./logic/neededLogic.js";
-import { setupDropLogic } from "./logic/dragDropLogic.js";
+import { questionRegistry } from "./questionRegistry.js";
 
 let json = [
 	{
@@ -24,7 +14,7 @@ let json = [
 		answer: 2
 	},
 	{
-		text: "Jadi, 2 itu kita akan ambil dari __",
+		text: "2 itu kita akan ambil dari __",
 		type: "pecah",
 		options: [6, 5, 4],
 		content: {
@@ -45,7 +35,7 @@ let json = [
 		answer: 3
 	},
 	{
-		text: "7 tambah 3 akan dapat __",
+		text: "8 tambah 2 akan dapat __",
 		type: "gabung",
 		options: [10, 11, 12],
 		content: {
@@ -56,7 +46,7 @@ let json = [
 		answer: 10
 	},
 	{
-		text: "Jadi, 10 tambah 3 akan dapat?",
+		text: "10 tambah 3 akan dapat?",
 		type: "sum",
 		options: [13, 11, 12],
 		content: {
@@ -67,7 +57,7 @@ let json = [
 		answer: 13
 	},
 	{
-		text: "Jadi, 10 tambah 3 akan dapat?",
+		text: "8 tambah 5 akan dapat __",
 		type: "summery",
 		options: [13, 11, 12],
 		content: {
@@ -94,27 +84,6 @@ let btnContinue = document.querySelector(".btnContinue")
 let footer = document.querySelector("footer")
 let textFooter = document.querySelector(".textFooter")
 
-let pickedElement
-
-function renderQuestion(data) {
-	switch (data.type) {
-		case "pick":
-			return renderPick(data)
-		case "needed":
-			return renderNeeded(data)
-		case "pecah":
-			return renderPecah(data)
-		case "baki":
-			return renderBaki(data)
-		case "gabung":
-			return renderGabung(data)
-		case "sum":
-			return renderSum(data)
-		case "summery":
-			return renderSummery(data)
-	}
-}
-
 let hanldeContinue = () => {
 
 	textFooter.classList.toggle("hidden")
@@ -135,50 +104,6 @@ let hanldeContinue = () => {
 	isReset = false
 }
 
-let afterHanldeCheck = () => {
-	if (currentData.type == "pecah" || currentData.type == "baki" || currentData.type == "gabung" ||
-		currentData.type == "sum" || currentData.type == "summery") {
-
-		let text
-		let eqn2
-		let allElements = document.querySelectorAll(".content");
-		let lastElement = allElements[allElements.length - 1];
-
-		switch (currentData.type) {
-			case "pecah":
-				text = `Jadi, 2 itu kita akan ambil dari ${currentData.answer}`
-				eqn2 = lastElement.querySelectorAll(".eqn")[1]
-				eqn2.textContent = numberPicked
-				break
-
-			case "baki":
-				text = `5 akan dipecahkan kepada 2 dan ${currentData.answer}`
-				eqn2 = lastElement.querySelectorAll(".pecah")[1]
-				eqn2.textContent = numberPicked
-				break
-
-			case "gabung":
-				text = `7 tambah 3 akan dapat ${currentData.answer}`
-				eqn2 = lastElement.querySelectorAll(".hasil")[0]
-				eqn2.textContent = numberPicked
-				break
-
-			case "sum":
-				text = `7 tambah 3 akan dapat ${currentData.answer}`
-				eqn2 = lastElement.querySelectorAll(".jumlah")[0]
-				eqn2.textContent = `=${numberPicked}`
-				break
-
-			case "summery":
-				text = `7 tambah 3 akan dapat ${currentData.answer}`
-				eqn2 = lastElement.querySelectorAll(".jumlahAkhir")[0]
-				eqn2.textContent = `${numberPicked}`
-				break
-		}
-		lastElement.querySelector(".dialog p").textContent = text
-	}
-}
-
 let hanldeCheck = () => {
 	if (numberPicked == null || isReset == true) return
 	isReset = true
@@ -192,7 +117,10 @@ let hanldeCheck = () => {
 		btnCheck.classList.add("hidden")
 		textFooter.classList.remove("hidden")
 
-		afterHanldeCheck()
+		let lastElement = document.querySelector(".content:last-child");
+		let question = questionRegistry[currentData.type];
+
+		question.afterCheck?.(lastElement, numberPicked, currentData);
 
 	} else {
 		textFooter.textContent = "SALAH"
@@ -217,23 +145,17 @@ let moveQuestion = (data = json[index++]) => {
 		});
 	}
 
-	const dialog = document.createElement("div");
+	let dialog = document.createElement("div");
 	dialog.className = "content fadeIn";
-	dialog.innerHTML = renderQuestion(data);
+
+	let question = questionRegistry[data.type];
+	dialog.innerHTML = question.render(data);
 	wrapper.appendChild(dialog);
 
-	switch (data.type) {
-
-		case "pick": setupPick((value) => numberPicked = value, () => !isReset)
-		case "needed": setupClickBtn((value) => numberPicked = value, () => !isReset)
-		case "pecah": setupClickBtn((value) => numberPicked = value, () => !isReset)
-		case "baki": setupClickBtn((value) => numberPicked = value, () => !isReset)
-		case "gabung": setupClickBtn((value) => numberPicked = value, () => !isReset)
-		case "sum": setupClickBtn((value) => numberPicked = value, () => !isReset)
-		case "summery": setupClickBtn((value) => numberPicked = value, () => !isReset)
-	}
+	question.setup(value => numberPicked = value,() => !isReset);
 }
 
 btnCheck.addEventListener("click", hanldeCheck)
 btnContinue.addEventListener("click", hanldeContinue)
+
 moveQuestion()

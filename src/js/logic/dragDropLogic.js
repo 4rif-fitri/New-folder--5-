@@ -1,4 +1,4 @@
-export function setupDropLogic(data){
+export function setupDragDrop(data){
 	return`
 	
 		

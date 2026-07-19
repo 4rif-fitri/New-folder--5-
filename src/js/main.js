@@ -84,6 +84,28 @@ let btnContinue = document.querySelector(".btnContinue")
 let footer = document.querySelector("footer")
 let textFooter = document.querySelector(".textFooter")
 
+let showWrong = () =>{
+	btnContinue.classList.remove("green", "red");
+	
+	textFooter.textContent = "SALAH"
+	footer.classList.add("soft-red")
+	textFooter.classList.add("textRed")
+	btnContinue.classList.remove("hidden")
+	btnCheck.classList.add("hidden")
+	textFooter.classList.remove("hidden")
+}
+
+let showCorrect = () => {
+	btnContinue.classList.remove("green", "red");
+
+	textFooter.textContent = "BETUL"
+	footer.classList.add("soft-green")
+	textFooter.classList.add("textGreen")
+	btnContinue.classList.remove("hidden")
+	btnCheck.classList.add("hidden")
+	textFooter.classList.remove("hidden")
+}
+
 let hanldeContinue = () => {
 
 	textFooter.classList.toggle("hidden")
@@ -108,28 +130,17 @@ let hanldeCheck = () => {
 	if (numberPicked == null || isReset == true) return
 	isReset = true
 
-	if (numberPicked == currentData.answer) {
-		textFooter.textContent = "BETUL"
-		footer.classList.add("soft-green")
-		textFooter.classList.add("textGreen")
-		btnContinue.classList.add("green")
-		btnContinue.classList.remove("hidden")
-		btnCheck.classList.add("hidden")
-		textFooter.classList.remove("hidden")
+	const question = questionRegistry[currentData.type];
+	if (question.check(numberPicked, currentData)) {
+
+		showCorrect()
 
 		let lastElement = document.querySelector(".content:last-child");
-		let question = questionRegistry[currentData.type];
 
 		question.afterCheck?.(lastElement, numberPicked, currentData);
 
 	} else {
-		textFooter.textContent = "SALAH"
-		footer.classList.add("soft-red")
-		textFooter.classList.add("textRed")
-		btnContinue.classList.add("red")
-		btnContinue.classList.remove("hidden")
-		btnCheck.classList.add("hidden")
-		textFooter.classList.remove("hidden")
+		showWrong()
 	}
 }
 

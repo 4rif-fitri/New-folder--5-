@@ -1,4 +1,5 @@
 export function setupClickBtn(callback, canPick) {
+	
 	let elementPicked = null;
 	const allElements = document.querySelectorAll(".content");
 	const lastElement = allElements[allElements.length - 1];

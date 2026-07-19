@@ -8,7 +8,7 @@ import { renderSummery } from "./render/summery.js";
 
 import { setupPick } from "./logic/pickLogic.js";
 import { setupClickBtn } from "./logic/neededLogic.js";
-
+import { setupDropLogic } from "./logic/dragDropLogic.js";
 
 let json = [
 	{
@@ -98,7 +98,6 @@ let pickedElement
 
 function renderQuestion(data) {
 	switch (data.type) {
-
 		case "pick":
 			return renderPick(data)
 		case "needed":
@@ -149,37 +148,48 @@ let hanldeCheck = () => {
 		btnCheck.classList.add("hidden")
 		textFooter.classList.remove("hidden")
 
+		if (currentData.type == "pecah" || currentData.type == "baki" || currentData.type == "gabung" ||
+			currentData.type == "sum" || currentData.type == "summery"){
+			
+			let text
+			let eqn2
+			let allElements = document.querySelectorAll(".content");
+			let lastElement = allElements[allElements.length - 1];
 
-		if (currentData.type == "pecah") {
-			let allElements = document.querySelectorAll(".content");
-			let lastElement = allElements[allElements.length - 1];
-			lastElement.querySelector(".dialog p").textContent = `Jadi, 2 itu kita akan ambil dari ${currentData.answer}`
-			let eqn2 = lastElement.querySelectorAll(".eqn")[1]
-			eqn2.textContent = numberPicked
-		} else if (currentData.type == "baki") {
-			let allElements = document.querySelectorAll(".content");
-			let lastElement = allElements[allElements.length - 1];
-			lastElement.querySelector(".dialog p").textContent = `5 akan dipecahkan kepada 2 dan ${currentData.answer}`
-			let eqn2 = lastElement.querySelectorAll(".pecah")[1]
-			eqn2.textContent = numberPicked
-		} else if (currentData.type == "gabung") {
-			let allElements = document.querySelectorAll(".content");
-			let lastElement = allElements[allElements.length - 1];
-			lastElement.querySelector(".dialog p").textContent = `7 tambah 3 akan dapat ${currentData.answer}`
-			let eqn2 = lastElement.querySelectorAll(".hasil")[0]
-			eqn2.textContent = numberPicked
-		} else if (currentData.type == "sum") {
-			let allElements = document.querySelectorAll(".content");
-			let lastElement = allElements[allElements.length - 1];
-			lastElement.querySelector(".dialog p").textContent = `7 tambah 3 akan dapat ${currentData.answer}`
-			let eqn2 = lastElement.querySelectorAll(".jumlah")[0]
-			eqn2.textContent = `=${numberPicked}`
-		} else if (currentData.type == "summery") {
-			let allElements = document.querySelectorAll(".content");
-			let lastElement = allElements[allElements.length - 1];
-			lastElement.querySelector(".dialog p").textContent = `7 tambah 3 akan dapat ${currentData.answer}`
-			let eqn2 = lastElement.querySelectorAll(".jumlahAkhir")[0]
-			eqn2.textContent = `${numberPicked}`
+			switch (currentData.type){
+				case "pecah":
+					text = `Jadi, 2 itu kita akan ambil dari ${currentData.answer}`
+					eqn2 = lastElement.querySelectorAll(".eqn")[1]
+					eqn2.textContent = numberPicked
+					break
+
+				case "baki":
+					text = `5 akan dipecahkan kepada 2 dan ${currentData.answer}`
+					eqn2 = lastElement.querySelectorAll(".pecah")[1]
+					eqn2.textContent = numberPicked
+					break
+
+				case "gabung":
+					text = `7 tambah 3 akan dapat ${currentData.answer}`
+					eqn2 = lastElement.querySelectorAll(".hasil")[0]
+					eqn2.textContent = numberPicked
+					break
+
+				case "sum":
+					text = `7 tambah 3 akan dapat ${currentData.answer}`
+					eqn2 = lastElement.querySelectorAll(".jumlah")[0]
+					eqn2.textContent = `=${numberPicked}`
+					break
+
+				case "summery":
+					text = `7 tambah 3 akan dapat ${currentData.answer}`
+					eqn2 = lastElement.querySelectorAll(".jumlahAkhir")[0]
+					eqn2.textContent = `${numberPicked}`
+					break
+			}
+		
+			lastElement.querySelector(".dialog p").textContent = text
+		
 		}
 
 	} else {
@@ -210,29 +220,16 @@ let moveQuestion = (data = json[index++]) => {
 	dialog.innerHTML = renderQuestion(data);
 	wrapper.appendChild(dialog);
 
-	if (data.type == "pick") {
-		setupPick((value) => numberPicked = value,
-			() => !isReset)
-	} else if (data.type == "needed") {
-		setupClickBtn((value) => numberPicked = value,
-			() => !isReset)
-	} else if (data.type == "pecah") {
-		setupClickBtn((value) => numberPicked = value,
-			() => !isReset)
-	} else if (data.type == "baki") {
-		setupClickBtn((value) => numberPicked = value,
-			() => !isReset)
-	}else if (data.type == "gabung") {
-		setupClickBtn((value) => numberPicked = value,
-			() => !isReset)
-	} else if (data.type == "sum") {
-		setupClickBtn((value) => numberPicked = value,
-			() => !isReset)
-	} else if (data.type == "summery") {
-		setupClickBtn((value) => numberPicked = value,
-			() => !isReset)
-	}
+	switch (data.type) {
 
+		case "pick": setupPick((value) => numberPicked = value, () => !isReset)
+		case "needed": setupClickBtn((value) => numberPicked = value, () => !isReset)
+		case "pecah": setupClickBtn((value) => numberPicked = value, () => !isReset)
+		case "baki": setupClickBtn((value) => numberPicked = value, () => !isReset)
+		case "gabung": setupClickBtn((value) => numberPicked = value, () => !isReset)
+		case "sum": setupClickBtn((value) => numberPicked = value, () => !isReset)
+		case "summery": setupClickBtn((value) => numberPicked = value, () => !isReset)
+	}
 }
 
 btnCheck.addEventListener("click", hanldeCheck)

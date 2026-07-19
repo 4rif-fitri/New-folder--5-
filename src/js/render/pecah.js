@@ -25,15 +25,10 @@ export function renderPecah(data){
 			</div>
 
 			<div class="options">
-				<div class="option soft-box btnAns">
-					<h2>${data.options[0]}</h2>
-				</div>
-				<div class="option soft-box btnAns">
-					<h2>${data.options[1]}</h2>
-				</div>
-				<div class="option soft-box btnAns">
-					<h2>${data.options[2]}</h2>
-				</div>
+				${data.options.map(option => `
+					<div class="option soft-box btnAns">
+						<h2>${option}</h2>
+					</div>`).join('')}
 			</div>
 	</div>
     `

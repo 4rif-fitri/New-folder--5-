@@ -135,6 +135,50 @@ let hanldeContinue = () => {
 	isReset = false
 }
 
+let afterHanldeCheck = () => {
+	if (currentData.type == "pecah" || currentData.type == "baki" || currentData.type == "gabung" ||
+		currentData.type == "sum" || currentData.type == "summery") {
+
+		let text
+		let eqn2
+		let allElements = document.querySelectorAll(".content");
+		let lastElement = allElements[allElements.length - 1];
+
+		switch (currentData.type) {
+			case "pecah":
+				text = `Jadi, 2 itu kita akan ambil dari ${currentData.answer}`
+				eqn2 = lastElement.querySelectorAll(".eqn")[1]
+				eqn2.textContent = numberPicked
+				break
+
+			case "baki":
+				text = `5 akan dipecahkan kepada 2 dan ${currentData.answer}`
+				eqn2 = lastElement.querySelectorAll(".pecah")[1]
+				eqn2.textContent = numberPicked
+				break
+
+			case "gabung":
+				text = `7 tambah 3 akan dapat ${currentData.answer}`
+				eqn2 = lastElement.querySelectorAll(".hasil")[0]
+				eqn2.textContent = numberPicked
+				break
+
+			case "sum":
+				text = `7 tambah 3 akan dapat ${currentData.answer}`
+				eqn2 = lastElement.querySelectorAll(".jumlah")[0]
+				eqn2.textContent = `=${numberPicked}`
+				break
+
+			case "summery":
+				text = `7 tambah 3 akan dapat ${currentData.answer}`
+				eqn2 = lastElement.querySelectorAll(".jumlahAkhir")[0]
+				eqn2.textContent = `${numberPicked}`
+				break
+		}
+		lastElement.querySelector(".dialog p").textContent = text
+	}
+}
+
 let hanldeCheck = () => {
 	if (numberPicked == null || isReset == true) return
 	isReset = true
@@ -148,49 +192,7 @@ let hanldeCheck = () => {
 		btnCheck.classList.add("hidden")
 		textFooter.classList.remove("hidden")
 
-		if (currentData.type == "pecah" || currentData.type == "baki" || currentData.type == "gabung" ||
-			currentData.type == "sum" || currentData.type == "summery"){
-			
-			let text
-			let eqn2
-			let allElements = document.querySelectorAll(".content");
-			let lastElement = allElements[allElements.length - 1];
-
-			switch (currentData.type){
-				case "pecah":
-					text = `Jadi, 2 itu kita akan ambil dari ${currentData.answer}`
-					eqn2 = lastElement.querySelectorAll(".eqn")[1]
-					eqn2.textContent = numberPicked
-					break
-
-				case "baki":
-					text = `5 akan dipecahkan kepada 2 dan ${currentData.answer}`
-					eqn2 = lastElement.querySelectorAll(".pecah")[1]
-					eqn2.textContent = numberPicked
-					break
-
-				case "gabung":
-					text = `7 tambah 3 akan dapat ${currentData.answer}`
-					eqn2 = lastElement.querySelectorAll(".hasil")[0]
-					eqn2.textContent = numberPicked
-					break
-
-				case "sum":
-					text = `7 tambah 3 akan dapat ${currentData.answer}`
-					eqn2 = lastElement.querySelectorAll(".jumlah")[0]
-					eqn2.textContent = `=${numberPicked}`
-					break
-
-				case "summery":
-					text = `7 tambah 3 akan dapat ${currentData.answer}`
-					eqn2 = lastElement.querySelectorAll(".jumlahAkhir")[0]
-					eqn2.textContent = `${numberPicked}`
-					break
-			}
-		
-			lastElement.querySelector(".dialog p").textContent = text
-		
-		}
+		afterHanldeCheck()
 
 	} else {
 		textFooter.textContent = "SALAH"

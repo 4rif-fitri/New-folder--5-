@@ -10,6 +10,10 @@ let json = [
 	{
 		text: "8 perlukan berapa untuk jadi 10",
 		type: "needed",
+		content: {
+			pelengkap: 2,
+			options: [8, 5],
+		},
 		options: [2, 3, 5],
 		answer: 2
 	},
@@ -121,7 +125,7 @@ let hanldeContinue = () => {
 	ui.footer.classList.remove("soft-green", "soft-red")
 
 	if (state.numberPicked == state.currentData.answer) {
-		moveQuestion()
+		main()
 	} else {
 		let allElements = document.querySelectorAll(".higlight");
 		let lastElement = allElements[allElements.length - 1];
@@ -149,7 +153,17 @@ let hanldeCheck = () => {
 	}
 }
 
-let moveQuestion = (data = json[state.index++]) => {
+function getQuestion(type) {
+	const question = questionRegistry[type];
+
+	if (!question) {
+		throw new Error(`Unknown question type: ${type}`);
+	}
+
+	return question;
+}
+
+let main = (data = json[state.index++]) => {
 
 	state.currentData = data
 	state.question = questionRegistry[state.currentData.type];
@@ -174,4 +188,4 @@ let moveQuestion = (data = json[state.index++]) => {
 ui.btnCheck.addEventListener("click", hanldeCheck)
 ui.btnContinue.addEventListener("click", hanldeContinue)
 
-moveQuestion()
+main()

@@ -1,13 +1,13 @@
-import { renderPick } from "../../render/pick.js";
-import { renderNeeded } from "../../render/needed.js";
-import { renderPecah } from "../../render/pecah.js";
-import { renderBaki } from "../../render/baki.js";
-import { renderGabung } from "../../render/gabung.js";
-import { renderSum } from "../../render/sum.js";
-import { renderSummery } from "../../render/summery.js";
+import { renderPick } from "./render/pick.js";
+import { renderNeeded } from "./render/needed.js";
+import { renderPecah } from "./render/pecah.js";
+import { renderBaki } from "./render/baki.js";
+import { renderGabung } from "./render/gabung.js";
+import { renderSum } from "./render/sum.js";
+import { renderSummery } from "./render/summery.js";
 
-import { setupPick } from "../../logic/pickLogic.js";
-import { setupClickBtn } from "../../logic/neededLogic.js";
+import { setupPick } from "./logic/pickLogic.js";
+import { setupClickBtn } from "./logic/neededLogic.js";
 
 
 let json = [

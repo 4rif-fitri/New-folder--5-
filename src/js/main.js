@@ -84,6 +84,8 @@ let btnContinue = document.querySelector(".btnContinue")
 let footer = document.querySelector("footer")
 let textFooter = document.querySelector(".textFooter")
 
+let question
+
 let showWrong = () =>{
 	btnContinue.classList.remove("green", "red");
 	
@@ -130,7 +132,6 @@ let hanldeCheck = () => {
 	if (numberPicked == null || isReset == true) return
 	isReset = true
 
-	const question = questionRegistry[currentData.type];
 	if (question.check(numberPicked, currentData)) {
 
 		showCorrect()
@@ -147,6 +148,7 @@ let hanldeCheck = () => {
 let moveQuestion = (data = json[index++]) => {
 
 	currentData = data
+	question = questionRegistry[currentData.type];
 
 	const lastContent = document.querySelector(".content:last-child");
 
@@ -159,7 +161,6 @@ let moveQuestion = (data = json[index++]) => {
 	let dialog = document.createElement("div");
 	dialog.className = "content fadeIn";
 
-	let question = questionRegistry[data.type];
 	dialog.innerHTML = question.render(data);
 	wrapper.appendChild(dialog);
 

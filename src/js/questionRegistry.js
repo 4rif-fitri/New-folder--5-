@@ -11,10 +11,6 @@ import { renderPick } from "./render/pick.js";
 import { renderSum } from "./render/sum.js";
 import { renderSummery } from "./render/summery.js";
 
-
-let text
-let eqn2
-
 export let questionRegistry = {
 	pick: {
 		render: renderPick,

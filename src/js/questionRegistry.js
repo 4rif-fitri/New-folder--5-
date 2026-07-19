@@ -5,11 +5,13 @@ import { setupPick } from "./logic/pickLogic.js";
 
 import { renderBaki } from "./render/baki.js";
 import { renderGabung } from "./render/gabung.js";
+import { renderLatihanPecah } from "./render/latihanPecah.js";
 import { renderNeeded } from "./render/needed.js";
 import { renderPecah } from "./render/pecah.js";
 import { renderPick } from "./render/pick.js";
 import { renderSum } from "./render/sum.js";
 import { renderSummery } from "./render/summery.js";
+import { renderPecahTerbalik } from "./render/PecahTerbalik.js";
 
 export let questionRegistry = {
 	pick: {
@@ -74,5 +76,23 @@ export let questionRegistry = {
 			updateContent(lastElement.querySelectorAll(".jumlahAkhir")[0], `${numberPicked}`)
 		},
 
+	},
+	latihanPecah: {
+		render: renderLatihanPecah,
+		setup: setupClickBtn,
+		check: defaultCheck,
+		afterCorrect(lastElement, numberPicked, currentData) {
+			updateContent(lastElement.querySelector(".dialog p"), ``)
+			updateContent(lastElement.querySelectorAll(".circuleAns")[0], `${numberPicked}`)
+		},
+	},
+	latihanPecahTerbalik: {
+		render: renderPecahTerbalik,
+		setup: setupClickBtn,
+		check: defaultCheck,
+		afterCorrect(lastElement, numberPicked, currentData) {
+			updateContent(lastElement.querySelector(".dialog p"), ``)
+			updateContent(lastElement.querySelectorAll(".circuleAns")[0], `${numberPicked}`)
+		},
 	}
 }

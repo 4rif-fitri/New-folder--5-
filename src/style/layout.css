@@ -1,0 +1,297 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	user-select: none;
+
+}
+
+:root {
+	--gray: #E5E5E5;
+}
+
+html {
+	line-height: 1.5em;
+	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+body {
+	width: 100%;
+	height: 100vh;
+}
+
+a {
+	text-decoration: none;
+	color: unset;
+}
+
+.container {
+	width: 100%;
+	height: 100%;
+}
+
+.phone {
+	width: 500px;
+	height: 100%;
+	margin: 0 auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	border: 2px solid var(--gray);
+}
+
+.card>* {
+	text-align: center;
+}
+
+.soft-box {
+	display: grid;
+	place-items: center;
+
+	background: white;
+
+	border: 4px solid #bfc4cb;
+
+	box-shadow:
+		0 6px 0 #c8ccd2,
+		inset 0 1px 0 rgba(255, 255, 255, .8);
+	border-radius: 12px;
+
+	font-family: Arial, sans-serif;
+	font-weight: 700;
+	color: #183153;
+
+	cursor: pointer;
+	transition: .15s;
+}
+
+.soft-box:hover {
+	transform: translateY(1px);
+	box-shadow: 0 5px 0 #c8ccd2;
+}
+
+.soft-box:active {
+	transform: translateY(5px);
+	box-shadow: 0 1px 0 #c8ccd2;
+}
+
+.disable {
+	background-color: #ddd;
+}
+
+header {
+	width: 100%;
+	height: 4rem;
+	border-bottom: 2px solid var(--gray);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+header div {
+	height: auto;
+	width: 100%;
+	display: grid;
+	grid-template-columns: 5rem auto 5rem;
+	place-items: center;
+}
+
+.x {
+	text-align: center;
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 20px;
+}
+
+.bar {
+	height: 50%;
+	width: 100%;
+	background-color: #eee;
+	border-radius: 15px;
+	position: relative;
+}
+
+.barFill {
+	left: 0;
+	position: absolute;
+	border-radius: 15px;
+	height: 100%;
+	width: 0%;
+	background-color: #58CC02;
+	transition: ease-out 0.5s;
+}
+
+footer {
+	width: 100%;
+	height: max-content;
+	border-top: 2px solid var(--gray);
+}
+
+main {
+	width: 100%;
+	flex: 1;
+	overflow: hidden;
+}
+
+#viewport {
+	width: 100%;
+	height: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+#viewport::-webkit-scrollbar {
+	display: none;
+}
+
+#spacer {
+	height: 80vh;
+}
+
+#wrapper {
+	width: 100%;
+}
+
+.content {
+	display: grid;
+	grid-template-columns: 4rem auto;
+	padding: .5rem;
+	gap: 1rem;
+}
+
+
+.icon>.circule {
+	background-image: url("../../images/64.jpg");
+	background-size: cover;
+	background-position: center;
+	border-radius: 50%;
+	border: 3px solid var(--gray);
+	width: 40px;
+	height: 40px;
+	margin: 0 auto;
+}
+
+.content>div {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.asd {
+	display: grid;
+	gap: 0.5rem;
+	grid-template-columns: repeat(2, 1fr);
+}
+
+.dialog {
+	border-radius: 12px;
+	padding: 0.5rem;
+	border: 2px solid var(--gray);
+}
+
+.fadeIn {
+	opacity: 0;
+	transform: translateY(50px);
+	animation: fadeIn .8s ease forwards;
+}
+
+@keyframes fadeIn {
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+footer {
+	padding: 0.5rem;
+}
+
+.btnCheck,
+.btnNext,
+.btnContinue {
+	width: 100%;
+	height: 3rem;
+	background-color: #58CC02;
+	color: #fff;
+	border: 4px solid #58CC02;
+
+	box-shadow: 0 6px 0 #58A700, inset 0 1px 0 rgba(88, 167, 0, .8);
+}
+
+.btnCheck:hover {
+	transform: translateY(1px);
+	box-shadow: 0 5px 0 #58A700;
+}
+
+.btnCheck:active {
+	transform: translateY(5px);
+	box-shadow: 0 1px 0 #58A700;
+}
+
+.orange {
+	background-color: rgb(255, 210, 125) !important;
+	border: 3px solid orange !important;
+}
+
+.hidden {
+	display: none;
+}
+
+.higlight {
+	background-color: #58CC02;
+}
+
+.textFooter {
+	padding: 0.5rem;
+}
+
+.soft-red {
+	background-color: rgba(255, 152, 152, 0.396);
+}
+
+.soft-green {
+	background-color: #befa91;
+}
+
+.textRed {
+	color: #FF4B4B;
+}
+
+.textGreen {
+	color: #58CC02;
+}
+
+.red {
+	background-color: #FF4B4B;
+	border: 4px solid #FF4B4B;
+	box-shadow: 0 6px 0 #FF4B4B, inset 0 1px 0 #FF4B4B;
+}
+
+.red:hover {
+	transform: translateY(1px);
+	box-shadow: 0 5px 0 #FF4B4B;
+}
+
+.red:active {
+	transform: translateY(5px);
+	box-shadow: 0 1px 0 #FF4B4B;
+}
+
+.green {
+	background-color: #58CC02;
+	border: 4px solid #58CC02;
+	box-shadow: 0 6px 0 #58CC02, inset 0 1px 0 #58CC02;
+}
+
+.green:hover {
+	transform: translateY(1px);
+	box-shadow: 0 5px 0 #58CC02;
+}
+
+.green:active {
+	transform: translateY(5px);
+	box-shadow: 0 1px 0 #58CC02;
+}

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="../../src/style/layout.css">
+	<link rel="stylesheet" href="../../src/style/part&hole.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Math&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+		rel="stylesheet">
+</head>
+
+<body>
+	<div class="container">
+
+		<div class="phone">
+			<header>
+
+				<div>
+					<a href="./index.html">
+						<p class="x">x</p>
+					</a>
+					<div class="bar">
+						<div class="barFill"></div>
+					</div>
+					<p></p>
+				</div>
+
+			</header>
+			<main>
+				<div id="viewport">
+					<div id="wrapper">
+
+
+					</div>
+				</div>
+			</main>
+			<footer>
+				<button class="btnCheck soft-box">NEXT</button>
+			</footer>
+		</div>
+
+	</div>
+	<script type="module">
+		import {
+			show, renderList, renderDiagramBox, renderDiagram,
+			renderText, avatar, diagramTerbalik, speak,
+			renderTeknik
+		} from "../../src/js/helper.js";
+
+		const nextBtn = document.querySelector(".btnCheck");
+		nextBtn.addEventListener("click", () => addDialog())
+		const viewport = document.getElementById("viewport");
+		let index = 0
+
+		let json = [
+			{
+				id: 1,
+				type: "text",
+				text: "Mari belajar Friends of 10."
+			},
+			{
+				id: 2,
+				type: "text",
+				text: "Friends of 10 ialah dua nombor yang apabila digabungkan akan menghasilkan jumlah 10."
+			},
+			{
+				type: "diagramBox",
+				text: "Contoh 1, 8 perlukan berapa lagi untuk jadi 10?",
+				content: {
+					nombor: 8,
+					pelengkap: 2,
+					showAnswer: false
+				},
+			},
+			{
+				type: "diagramBox",
+				text: "8 perlukan 2 lagi untuk jadi 10.",
+				content: {
+					nombor: 8,
+					pelengkap: 2,
+					showAnswer: true
+				}
+			},
+			{
+				type: "diagramBox",
+				text: "Contoh 2, 7 perlukan berapa lagi untuk jadi 10?",
+				content: {
+					nombor: 7,
+					pelengkap: 3,
+					showAnswer: false
+				}
+			},
+			{
+				type: "diagramBox",
+				text: "7 perlukan 3 lagi untuk jadi 10",
+				content: {
+					nombor: 7,
+					pelengkap: 3,
+					showAnswer: true
+				}
+			},
+			{
+				type: "diagramBox",
+				text: "Contoh 3, 5 perlukan berapa lagi untuk jadi 10?",
+				content: {
+					nombor: 5,
+					pelengkap: 5,
+					showAnswer: false
+				}
+			},
+			{
+				type: "diagramBox",
+				text: "5 perlukan 5 lagi untuk jadi 10.",
+				content: {
+					nombor: 5,
+					pelengkap: 5,
+					showAnswer: true
+				}
+			},
+			{
+				id: 7,
+				type: "list",
+				text: "Inilah semua pasangan Friends of 10",
+				content: {
+					items: ["1 + 9 = 10",
+						"2 + 8 = 10",
+						"3 + 7 = 10",
+						"4 + 6 = 10",
+						"5 + 5 = 10",]
+				}
+			}
+		]
+
+		let lenghtDialog = json.length
+		let barFill = document.querySelector(".barFill")
+		const clickSound = new Audio("../../sounds/click.wav");
+
+
+		function addDialog(data = json[index++]) {
+			if (index >= lenghtDialog + 1) return
+			clickSound.play();
+
+			barFill.style.width = `${(index / lenghtDialog) * 100}%`
+			// speak(data.text)
+			const isBottom = viewport.scrollHeight - viewport.scrollTop <= viewport.clientHeight + 50;
+
+			const dialog = document.createElement("div");
+			dialog.className = "content fadeIn";
+
+			if (data.type == "text") dialog.innerHTML = renderText(data);
+			else if (data.type == "diagramBox") dialog.innerHTML = renderDiagramBox(data);
+			else if (data.type == "diagram") dialog.innerHTML = renderDiagram(data);
+			else if (data.type == "diagram_terbalik") dialog.innerHTML = diagramTerbalik(data)
+			else if (data.type == "list") dialog.innerHTML = renderList(data)
+			else if (data.type == "teknik") dialog.innerHTML = renderTeknik(data)
+
+			const wrapper = document.getElementById("wrapper");
+
+			wrapper.appendChild(dialog);
+
+			if (isBottom) {
+				requestAnimationFrame(() => {
+					viewport.scrollTo({
+						top: viewport.scrollHeight,
+						behavior: "smooth"
+					});
+				});
+			}
+		}
+		addDialog()
+	</script>
+</body>
+
+</html>

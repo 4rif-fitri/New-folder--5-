@@ -1,3 +1,5 @@
+import { renderPopUpDone } from "./render/popUpDone.js";
+
 export function updateContent(element,text){
 	element.textContent = text
 }
@@ -303,4 +305,25 @@ export function resetContentFooter(ui) {
 	ui.btnContinue.classList.toggle("hidden")
 	ui.btnCheck.classList.toggle("hidden")
 	ui.footer.classList.remove("soft-green", "soft-red")
+}
+
+export function PopUpDone(){
+	let div = document.createElement("div")
+	div.classList.add("containerPopUp")
+	div.innerHTML = renderPopUpDone()
+	document.querySelector(".phone").appendChild(div)
+
+	document.querySelector(".btnExit").addEventListener('click', function(){
+		let path = window.location.pathname;
+		let parts = path.split("/");
+		let folder = parts[2];
+
+		if (folder == "belajar"){
+			window.location.href = "../../pages/belajar/index.html"
+		} else if (folder == "latihan"){
+			window.location.href = "../../pages/latihan/index.html"
+		}
+
+	})
+
 }

@@ -39,6 +39,7 @@ a {
 	align-items: center;
 	flex-direction: column;
 	border: 2px solid var(--gray);
+	position: relative;
 }
 
 .card>* {
@@ -157,6 +158,7 @@ main {
 
 #wrapper {
 	width: 100%;
+	height: 100%;
 }
 
 .content {
@@ -510,3 +512,69 @@ footer {
 	box-shadow: 0 1px 0 #58A700;
 }
 
+.containerPopUp{
+	position: absolute;
+	background-color: rgba(0, 0, 0, 0.2);
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.cardPopUp{
+	background-color: #fff;
+	padding: 1rem;
+	border-radius: 4px;
+}
+
+.cardPopUp > h2{
+	text-align: center;
+	margin: 0.5rem 0;
+}
+
+.btnExit:hover {
+	transform: translateY(1px);
+	box-shadow: 0 5px 0 #58CC02;
+}
+
+.btnExit:active {
+	transform: translateY(5px);
+	box-shadow: 0 1px 0 #58CC02;
+}
+
+.btnExit>* {
+	pointer-events: none;
+}
+
+.btnExit {
+	color: #fff;
+
+	width: 250px;
+	padding: 0.5rem;
+	display: grid;
+	place-items: center;
+
+	background: #58CC02;
+
+	border: 4px solid #58A700;
+
+	box-shadow: 0 6px 0 #58A700, inset 0 1px 0 #58A700;
+	border-radius: 12px;
+
+	font-family: Arial, sans-serif;
+	font-weight: 700;
+
+	cursor: pointer;
+	transition: .15s;
+}
+
+.btnExit:hover {
+	transform: translateY(1px);
+	box-shadow: 0 5px 0 #58A700;
+}
+
+.btnExit:active {
+	transform: translateY(5px);
+	box-shadow: 0 1px 0 #58A700;
+}

@@ -44,7 +44,7 @@
 	</div>
 	<script type="module">
 		import { questionRegistry } from "../../src/js/questionRegistry.js"
-		import { showWrong, showCorrect, resetContentFooter } from "../../src/js/helper.js"
+		import { showWrong, showCorrect, resetContentFooter, PopUpDone } from "../../src/js/helper.js"
 
 		let json = [
 			{
@@ -158,7 +158,8 @@
 		let main = (data = json[state.index++]) => {
 
 			if (state.index >= state.lenghtData + 1) {
-				window.location.href = "./index.html"
+				PopUpDone()
+				return
 			}
 
 			state.currentData = data

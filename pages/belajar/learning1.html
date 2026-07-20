@@ -29,12 +29,16 @@
 				<div id="viewport">
 					<div id="wrapper">
 
+
+
 					</div>
 				</div>
 			</main>
 			<footer>
 				<button class="btnCheck soft-box">NEXT</button>
 			</footer>
+
+
 		</div>
 
 	</div>
@@ -42,7 +46,7 @@
 		import {
 			show, renderList, renderDiagramBox, renderDiagram,
 			renderText, avatar, diagramTerbalik, speak,
-			renderTeknik
+			renderTeknik, PopUpDone
 		} from "../../src/js/helper.js";
 
 		let json = [
@@ -109,12 +113,14 @@
 		let lenghtDialog = json.length
 		let barFill = document.querySelector(".barFill")
 		let clickSound = new Audio("../../sounds/click.wav");
-		
+
 		nextBtn.addEventListener("click", () => addDialog())
-		
+
 		function addDialog(data = json[index++]) {
 			if (index >= lenghtDialog + 1) {
-				window.location.href = "./index.html"
+				// window.location.href = "./index.html"
+				PopUpDone()
+				return
 			}
 
 			clickSound.play();

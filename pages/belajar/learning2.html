@@ -44,7 +44,7 @@
 		import {
 			show, renderList, renderDiagramBox, renderDiagram,
 			renderText, avatar, diagramTerbalik, speak,
-			renderTeknik
+			renderTeknik, PopUpDone
 		} from "../../src/js/helper.js";
 
 		let json = [
@@ -137,7 +137,8 @@
 
 		function addDialog(data = json[index++]) {
 			if (index >= lenghtDialog + 1) {
-				window.location.href = "./index.html"
+				PopUpDone()
+				return
 			}
 
 			clickSound.play();

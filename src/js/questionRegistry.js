@@ -13,6 +13,7 @@ import { renderSum } from "./render/sum.js";
 import { renderSummery } from "./render/summery.js";
 import { renderPecahTerbalik } from "./render/PecahTerbalik.js";
 import { renderBoxDiagram } from "./render/boxDiagram.js";
+import { renderPopUpDone } from "./render/popUpDone.js";
 
 export let questionRegistry = {
 	pick: {
@@ -25,7 +26,7 @@ export let questionRegistry = {
 		setup: setupClickBtn,
 		check: defaultCheck,
 		afterCorrect(lastElement, numberPicked, currentData) {
-			updateContent(lastElement.querySelector(".dialog p"), `${currentData.content.options[1]} perlukan ${currentData.content.pelengkap} untuk jadi 10`)
+			updateContent(lastElement.querySelector(".dialog p"), `${currentData.content.options[0]} perlukan ${currentData.content.pelengkap} untuk jadi 10`)
 		},
 	},
 	pecah: {
@@ -109,6 +110,5 @@ export let questionRegistry = {
 				grid.appendChild(box)
 			})
 		},
-	}
-	
+	},
 }

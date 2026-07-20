@@ -164,7 +164,7 @@ main {
 
 
 .icon>.circule {
-	background-image: url("../../images/64.jpg");
+	background-image: url("../images/64.jpg");
 	background-size: cover;
 	background-position: center;
 	border-radius: 50%;

@@ -176,6 +176,7 @@ main {
 	width: 40px;
 	height: 40px;
 	margin: 0 auto;
+	background-color: lightblue;
 }
 
 .content>div {

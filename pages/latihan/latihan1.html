@@ -46,137 +46,157 @@
 		</div>
 	</div>
 	<script type="module">
-
 		import { questionRegistry } from "../../src/js/questionRegistry.js"
 		import { showWrong, showCorrect, resetContentFooter } from "../../src/js/helper.js"
-
-		let json = [
-			{
-				text: "",
-				type: "latihanPecah",
-				content: {
-					whole: 8,
-					part: [5, ""]
+		document.addEventListener("DOMContentLoaded", function () {
+			let json = [
+				{
+					text: "8 boleh dipecahkan kepada 5 dan __",
+					type: "latihanPecah",
+					content: {
+						whole: 8,
+						part: [5, ""]
+					},
+					options: [2, 3, 5],
+					answer: 3,
 				},
-				options: [2, 3, 5],
-				answer: 3,
-			},
-			{
-				text: "",
-				type: "latihanPecah",
-				content: {
-					whole: 3,
-					part: [2, ""]
+				{
+					text: "3 boleh dipecahkan kepada 2 dan __",
+					type: "latihanPecah",
+					content: {
+						whole: 3,
+						part: [2, ""]
+					},
+					options: [2, 3, 1],
+					answer: 1,
 				},
-				options: [2, 3, 1],
-				answer: 1,
-			},
-			{
-				text: "",
-				type: "latihanPecah",
-				content: {
-					whole: 4,
-					part: [2, ""]
+				{
+					text: "4 boleh dipecahkan kepada 2 dan __",
+					type: "latihanPecah",
+					content: {
+						whole: 4,
+						part: [2, ""]
+					},
+					options: [2, 3, 1],
+					answer: 2,
 				},
-				options: [2, 3, 1],
-				answer: 2,
-			},
-		]
+				{
+					text: "6 boleh dipecahkan kepada 3 dan __",
+					type: "latihanPecah",
+					content: {
+						whole: 6,
+						part: [3, ""]
+					},
+					options: [2, 3, 1],
+					answer: 3,
+				},
+				{
+					text: "9 boleh dipecahkan kepada 2 dan __",
+					type: "latihanPecah",
+					content: {
+						whole: 9,
+						part: [4, ""]
+					},
+					options: [2, 4, 1],
+					answer: 4,
+				},
+			]
 
 
-		let state = {
-			currentData: null,
-			index: 0,
-			numberPicked: null,
-			isReset: false,
-			question: null,
-			lenghtData: json.length
-		}
+			let state = {
+				currentData: null,
+				index: 0,
+				numberPicked: null,
+				isReset: false,
+				question: null,
+				lenghtData: json.length
+			}
 
-		let ui = {
-			barFill: document.querySelector(".barFill"),
-			viewport: document.getElementById("viewport"),
-			btnCheck: document.querySelector(".btnCheck"),
-			btnNext: document.querySelector(".btnNext"),
-			btnContinue: document.querySelector(".btnContinue"),
-			footer: document.querySelector("footer"),
-			textFooter: document.querySelector(".textFooter"),
-		}
+			let ui = {
+				barFill: document.querySelector(".barFill"),
+				viewport: document.getElementById("viewport"),
+				btnCheck: document.querySelector(".btnCheck"),
+				btnNext: document.querySelector(".btnNext"),
+				btnContinue: document.querySelector(".btnContinue"),
+				footer: document.querySelector("footer"),
+				textFooter: document.querySelector(".textFooter"),
+			}
 
-		let hanldeCheck = () => {
-			if (state.numberPicked == null || state.isReset == true) return
-			state.isReset = true
+			let hanldeCheck = () => {
+				if (state.numberPicked == null || state.isReset == true) return
+				state.isReset = true
 
-			if (state.question.check(state.numberPicked, state.currentData)) {
-				console.log("BETUL");
+				if (state.question.check(state.numberPicked, state.currentData)) {
+					// console.log("BETUL");
 
-				let lastElement = document.querySelector(".content:last-child");
+					let lastElement = document.querySelector(".content:last-child");
 
-				showCorrect(ui)
-				state.question?.afterCorrect(lastElement, state.numberPicked, state.currentData)
+					showCorrect(ui)
+					state.question?.afterCorrect(lastElement, state.numberPicked, state.currentData)
 
 
-				if (lastElement) {
-					lastElement.querySelectorAll(".btnAns, .eqn").forEach(el => {
-						el.style.pointerEvents = "none";
+					if (lastElement) {
+						lastElement.querySelectorAll(".btnAns, .eqn").forEach(el => {
+							el.style.pointerEvents = "none";
+						});
+					}
+
+				} else {
+					// console.log("SALAH");
+
+					showWrong(ui)
+				}
+			}
+
+			let hanldeContinue = () => {
+
+				resetContentFooter(ui)
+
+				if (state.numberPicked == state.currentData.answer) {
+					main()
+				} else {
+					let allElements = document.querySelectorAll(".higlight");
+					let lastElement = allElements[allElements.length - 1];
+					lastElement.classList.remove("higlight");
+				}
+				
+				ui.barFill.style.width = `${(state.index / state.lenghtData) * 100}%`
+				state.numberPicked = null;
+				state.isReset = false
+			}
+
+			let main = (data = json[state.index++]) => {
+				
+
+				state.currentData = data
+				state.question = questionRegistry[state.currentData.type];
+
+				let dialog = document.createElement("div");
+				dialog.className = "content fadeIn";
+
+				wrapper.innerHTML = ""
+				dialog.innerHTML = state.question.render(data);
+				wrapper.appendChild(dialog);
+
+				state.question.setup(value => state.numberPicked = value, () => !state.isReset);
+
+				let isBottom = viewport.scrollHeight - viewport.scrollTop <= viewport.clientHeight + 50;
+				if (isBottom) {
+					requestAnimationFrame(() => {
+						viewport.scrollTo({
+							top: viewport.scrollHeight,
+							behavior: "smooth"
+						});
 					});
 				}
-
-			} else {
-				console.log("SALAH");
-
-				showWrong(ui)
-			}
-		}
-
-		let hanldeContinue = () => {
-
-			resetContentFooter(ui)
-
-			if (state.numberPicked == state.currentData.answer) {
-				main()
-			} else {
-				let allElements = document.querySelectorAll(".higlight");
-				let lastElement = allElements[allElements.length - 1];
-				lastElement.classList.remove("higlight");
 			}
 
-			state.numberPicked = null;
-			state.isReset = false
-		}
+			main()
 
-		let main = (data = json[state.index++]) => {
-			ui.barFill.style.width = `${(state.index / state.lenghtData) * 100}%`
+			ui.btnCheck.addEventListener("click", hanldeCheck)
+			ui.btnContinue.addEventListener("click", hanldeContinue)
 
-			state.currentData = data
-			state.question = questionRegistry[state.currentData.type];
-
-			let dialog = document.createElement("div");
-			dialog.className = "content fadeIn";
-
-			wrapper.innerHTML = ""
-			dialog.innerHTML = state.question.render(data);
-			wrapper.appendChild(dialog);
-
-			state.question.setup(value => state.numberPicked = value, () => !state.isReset);
-
-			let isBottom = viewport.scrollHeight - viewport.scrollTop <= viewport.clientHeight + 50;
-			if (isBottom) {
-				requestAnimationFrame(() => {
-					viewport.scrollTo({
-						top: viewport.scrollHeight,
-						behavior: "smooth"
-					});
-				});
-			}
-		}
-
-		main()
-
-		ui.btnCheck.addEventListener("click", hanldeCheck)
-		ui.btnContinue.addEventListener("click", hanldeContinue)
-
-
+		})
 	</script>
 </body>
 

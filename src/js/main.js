@@ -131,7 +131,8 @@ let hanldeContinue = () => {
 		let lastElement = allElements[allElements.length - 1];
 		lastElement.classList.remove("higlight");
 	}
-
+	
+	ui.barFill.style.width = `${(state.index / state.lenghtData) * 100}%`
 	state.numberPicked = null;
 	state.isReset = false
 }

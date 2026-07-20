@@ -141,12 +141,12 @@
 				lastElement.classList.remove("higlight");
 			}
 
+			ui.barFill.style.width = `${(state.index / state.lenghtData) * 100}%`
 			state.numberPicked = null;
 			state.isReset = false
 		}
 
 		let main = (data = json[state.index++]) => {
-			ui.barFill.style.width = `${(state.index / state.lenghtData) * 100}%`
 
 			state.currentData = data
 			state.question = questionRegistry[state.currentData.type];

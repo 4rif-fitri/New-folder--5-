@@ -273,11 +273,11 @@ export function renderNeeded(data) {
 export function showCorrect(ui) {
 	ui.btnContinue.classList.remove("green", "red");
 
-	ui.textFooter.textContent = "BETUL"
-
-	ui.footer.classList.add("soft-green")
-	ui.textFooter.classList.add("textGreen")
 	ui.textFooter.classList.remove("hidden")
+	ui.textFooter.classList.add("textGreen")
+	ui.textFooter.textContent = "BETUL"
+	
+	ui.footer.classList.add("soft-green")
 	ui.btnContinue.classList.remove("hidden")
 	ui.btnCheck.classList.add("hidden")
 }
@@ -285,12 +285,17 @@ export function showCorrect(ui) {
 export function showWrong(ui) {
 	ui.btnContinue.classList.remove("green", "red");
 
-	ui.textFooter.textContent = "SALAH"
-	ui.footer.classList.add("soft-red")
-	ui.textFooter.classList.add("textRed")
 	ui.btnContinue.classList.remove("hidden")
-	ui.btnCheck.classList.add("hidden")
+	ui.btnContinue.classList.add("red")
+
 	ui.textFooter.classList.remove("hidden")
+	ui.textFooter.classList.add("textRed")
+	ui.textFooter.classList.remove("textGreen")
+	ui.textFooter.textContent = "SALAH"
+	
+	ui.footer.classList.add("soft-red")
+	
+	ui.btnCheck.classList.add("hidden")
 }
 
 export function resetContentFooter(ui) {

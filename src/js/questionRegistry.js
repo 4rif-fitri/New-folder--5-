@@ -83,7 +83,7 @@ export let questionRegistry = {
 		setup: setupClickBtn,
 		check: defaultCheck,
 		afterCorrect(lastElement, numberPicked, currentData) {
-			updateContent(lastElement.querySelector(".dialog p"), ``)
+			updateContent(lastElement.querySelector(".dialog p"), `${currentData.content.whole} boleh dipecahkan kepada ${currentData.content.part[0]} dan ${numberPicked}`)
 			updateContent(lastElement.querySelectorAll(".circuleAns")[0], `${numberPicked}`)
 		},
 	},

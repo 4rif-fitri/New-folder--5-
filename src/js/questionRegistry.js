@@ -12,6 +12,7 @@ import { renderPick } from "./render/pick.js";
 import { renderSum } from "./render/sum.js";
 import { renderSummery } from "./render/summery.js";
 import { renderPecahTerbalik } from "./render/PecahTerbalik.js";
+import { renderBoxDiagram } from "./render/boxDiagram.js";
 
 export let questionRegistry = {
 	pick: {
@@ -94,5 +95,20 @@ export let questionRegistry = {
 			updateContent(lastElement.querySelector(".dialog p"), ``)
 			updateContent(lastElement.querySelectorAll(".circuleAns")[0], `${numberPicked}`)
 		},
+	},
+	latihanBoxDiagram: {
+		render: renderBoxDiagram,
+		setup: setupClickBtn,
+		check: defaultCheck,
+		afterCorrect(lastElement, numberPicked, currentData) {
+			updateContent(lastElement.querySelector(".dialog p"), `8 perlukan ${currentData.answer} untuk jadi 10`)
+			let grid = document.querySelector(".grid") 
+			let addBox = Array.from({ length: currentData.answer }).map(() => {
+				let box = document.createElement("div")
+				box.classList.add("box","pop")
+				grid.appendChild(box)
+			})
+		},
 	}
+	
 }

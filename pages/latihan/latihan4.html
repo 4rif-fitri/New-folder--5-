@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="../../src/style/style.css">
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Math&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
 		rel="stylesheet">
+
 </head>
 
 <body>
@@ -29,10 +30,6 @@
 			<main>
 				<div id="viewport">
 					<div id="wrapper">
-						<div class="content fade">
-
-
-						</div>
 
 					</div>
 				</div>
@@ -46,52 +43,56 @@
 		</div>
 	</div>
 	<script type="module">
-
 		import { questionRegistry } from "../../src/js/questionRegistry.js"
 		import { showWrong, showCorrect, resetContentFooter } from "../../src/js/helper.js"
 
 		let json = [
 			{
-				text: "",
-				type: "latihanPecahTerbalik",
+				text: "8 perlukan __ untuk jadi 10",
+				type: "latihanBoxDiagram",
 				content: {
-					whole: "",
-					part: [5, 2]
+					numberOfBox: 8
 				},
-				options: [2, 7, 5],
+				options: [2, 4, 5],
+				answer: 2,
+			},
+			{
+				text: "5 perlukan __ untuk jadi 10",
+				type: "latihanBoxDiagram",
+				content: {
+					numberOfBox: 5
+				},
+				options: [2, 4, 5],
+				answer: 5,
+			},
+			{
+				text: "7 perlukan __ untuk jadi 10",
+				type: "latihanBoxDiagram",
+				content: {
+					numberOfBox: 7
+				},
+				options: [2, 3, 5],
+				answer: 3,
+			},
+			{
+				text: "9 perlukan __ untuk jadi 10",
+				type: "latihanBoxDiagram",
+				content: {
+					numberOfBox: 9
+				},
+				options: [1, 4, 5],
+				answer: 1,
+			},
+			{
+				text: "3 perlukan __ untuk jadi 10",
+				type: "latihanBoxDiagram",
+				content: {
+					numberOfBox: 3
+				},
+				options: [2, 4, 7],
 				answer: 7,
 			},
-			{
-				text: "",
-				type: "latihanPecahTerbalik",
-				content: {
-					whole: "",
-					part: [2, 2]
-				},
-				options: [2, 4, 1],
-				answer: 4,
-			},
-			{
-				text: "",
-				type: "latihanPecahTerbalik",
-				content: {
-					whole: "",
-					part: [6, 3]
-				},
-				options: [2, 9, 1],
-				answer: 9,
-			},
 		]
-
-
-		let state = {
-			currentData: null,
-			index: 0,
-			numberPicked: null,
-			isReset: false,
-			question: null,
-			lenghtData: json.length
-		}
 
 		let ui = {
 			barFill: document.querySelector(".barFill"),
@@ -101,6 +102,15 @@
 			btnContinue: document.querySelector(".btnContinue"),
 			footer: document.querySelector("footer"),
 			textFooter: document.querySelector(".textFooter"),
+		}
+
+		let state = {
+			currentData: null,
+			index: 0,
+			numberPicked: null,
+			isReset: false,
+			question: null,
+			lenghtData: json.length
 		}
 
 		let hanldeCheck = () => {
@@ -130,7 +140,6 @@
 		}
 
 		let hanldeContinue = () => {
-
 			resetContentFooter(ui)
 
 			if (state.numberPicked == state.currentData.answer) {
@@ -159,18 +168,7 @@
 			wrapper.appendChild(dialog);
 
 			state.question.setup(value => state.numberPicked = value, () => !state.isReset);
-
-			let isBottom = viewport.scrollHeight - viewport.scrollTop <= viewport.clientHeight + 50;
-			if (isBottom) {
-				requestAnimationFrame(() => {
-					viewport.scrollTo({
-						top: viewport.scrollHeight,
-						behavior: "smooth"
-					});
-				});
-			}
 		}
-
 		main()
 
 		ui.btnCheck.addEventListener("click", hanldeCheck)

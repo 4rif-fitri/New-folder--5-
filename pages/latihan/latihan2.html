@@ -52,7 +52,7 @@
 
 		let json = [
 			{
-				text: "",
+				text: "Berapakah jumlah 5 tambah 2",
 				type: "latihanPecahTerbalik",
 				content: {
 					whole: "",
@@ -62,7 +62,7 @@
 				answer: 7,
 			},
 			{
-				text: "",
+				text: "Berapakah jumlah 2 tambah 2",
 				type: "latihanPecahTerbalik",
 				content: {
 					whole: "",
@@ -72,7 +72,7 @@
 				answer: 4,
 			},
 			{
-				text: "",
+				text: "Berapakah jumlah 6 tambah 3",
 				type: "latihanPecahTerbalik",
 				content: {
 					whole: "",
@@ -80,6 +80,26 @@
 				},
 				options: [2, 9, 1],
 				answer: 9,
+			},
+			{
+				text: "Berapakah jumlah 5 tambah 5",
+				type: "latihanPecahTerbalik",
+				content: {
+					whole: "",
+					part: [5, 5]
+				},
+				options: [2, 10, 1],
+				answer: 10,
+			},
+			{
+				text: "Berapakah jumlah 4 tambah 6",
+				type: "latihanPecahTerbalik",
+				content: {
+					whole: "",
+					part: [4, 6]
+				},
+				options: [2, 10, 1],
+				answer: 10,
 			},
 		]
 
@@ -134,6 +154,7 @@
 			resetContentFooter(ui)
 
 			if (state.numberPicked == state.currentData.answer) {
+				ui.barFill.style.width = `${(state.index / state.lenghtData) * 100}%`
 				main()
 			} else {
 				let allElements = document.querySelectorAll(".higlight");
@@ -141,12 +162,14 @@
 				lastElement.classList.remove("higlight");
 			}
 
-			ui.barFill.style.width = `${(state.index / state.lenghtData) * 100}%`
 			state.numberPicked = null;
 			state.isReset = false
 		}
 
 		let main = (data = json[state.index++]) => {
+			if (state.index >= state.lenghtData + 1) {
+				window.location.href = "./index.html"
+			}
 
 			state.currentData = data
 			state.question = questionRegistry[state.currentData.type];

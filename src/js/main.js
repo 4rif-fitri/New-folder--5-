@@ -1,3 +1,4 @@
+import { showCorrect, showWrong } from "./helper.js";
 import { questionRegistry } from "./questionRegistry.js";
 
 let json = [
@@ -80,7 +81,8 @@ let state = {
 	elementPicked: null,
 	currentData: null,
 	isReset: false,
-	question: null
+	question: null,
+	lenghtData: json.length
 }
 
 let ui = {
@@ -93,30 +95,6 @@ let ui = {
 	textFooter: document.querySelector(".textFooter"),
 }
 
-function showWrong() {
-	ui.btnContinue.classList.remove("green", "red");
-
-	ui.textFooter.textContent = "SALAH"
-	ui.footer.classList.add("soft-red")
-	ui.textFooter.classList.add("textRed")
-	ui.btnContinue.classList.remove("hidden")
-	ui.btnCheck.classList.add("hidden")
-	ui.textFooter.classList.remove("hidden")
-}
-
-function showCorrect() {
-	ui.btnContinue.classList.remove("green", "red");
-
-	ui.textFooter.textContent = "BETUL"
-
-	ui.footer.classList.add("soft-green")
-	ui.textFooter.classList.add("textGreen")
-	ui.textFooter.classList.remove("hidden")
-	ui.btnContinue.classList.remove("hidden")
-	ui.btnCheck.classList.add("hidden")
-}
-
-
 let hanldeContinue = () => {
 
 	ui.textFooter.classList.toggle("hidden")
@@ -125,14 +103,14 @@ let hanldeContinue = () => {
 	ui.footer.classList.remove("soft-green", "soft-red")
 
 	if (state.numberPicked == state.currentData.answer) {
+		ui.barFill.style.width = `${(state.index / state.lenghtData) * 100}%`
 		main()
 	} else {
 		let allElements = document.querySelectorAll(".higlight");
 		let lastElement = allElements[allElements.length - 1];
 		lastElement.classList.remove("higlight");
 	}
-	
-	ui.barFill.style.width = `${(state.index / state.lenghtData) * 100}%`
+
 	state.numberPicked = null;
 	state.isReset = false
 }
@@ -145,12 +123,12 @@ let hanldeCheck = () => {
 
 		let lastElement = document.querySelector(".content:last-child");
 
-		showCorrect()
+		showCorrect(ui)
 
 		state.question.afterCorrect?.(lastElement, state.numberPicked, state.currentData);
 
 	} else {
-		showWrong()
+		showWrong(ui)
 	}
 }
 
@@ -165,6 +143,10 @@ function getQuestion(type) {
 }
 
 let main = (data = json[state.index++]) => {
+
+	if (state.index >= state.lenghtData + 1) {
+		window.location.href = "./index.html"
+	}
 
 	state.currentData = data
 	state.question = questionRegistry[state.currentData.type];
@@ -184,6 +166,16 @@ let main = (data = json[state.index++]) => {
 	wrapper.appendChild(dialog);
 
 	state.question.setup(value => state.numberPicked = value, () => !state.isReset);
+
+	let isBottom = viewport.scrollHeight - viewport.scrollTop <= viewport.clientHeight + 50;
+	if (isBottom) {
+		requestAnimationFrame(() => {
+			viewport.scrollTo({
+				top: viewport.scrollHeight,
+				behavior: "smooth"
+			});
+		});
+	}
 }
 
 ui.btnCheck.addEventListener("click", hanldeCheck)

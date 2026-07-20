@@ -97,8 +97,8 @@
 						whole: 9,
 						part: [4, ""]
 					},
-					options: [2, 4, 1],
-					answer: 4,
+					options: [2, 5, 1],
+					answer: 5,
 				},
 			]
 
@@ -153,6 +153,7 @@
 				resetContentFooter(ui)
 
 				if (state.numberPicked == state.currentData.answer) {
+					ui.barFill.style.width = `${(state.index / state.lenghtData) * 100}%`
 					main()
 				} else {
 					let allElements = document.querySelectorAll(".higlight");
@@ -160,13 +161,14 @@
 					lastElement.classList.remove("higlight");
 				}
 				
-				ui.barFill.style.width = `${(state.index / state.lenghtData) * 100}%`
 				state.numberPicked = null;
 				state.isReset = false
 			}
 
 			let main = (data = json[state.index++]) => {
-				
+				if (state.index >= state.lenghtData + 1) {
+					window.location.href = "./index.html"
+				}
 
 				state.currentData = data
 				state.question = questionRegistry[state.currentData.type];

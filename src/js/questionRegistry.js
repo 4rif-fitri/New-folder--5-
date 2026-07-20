@@ -92,7 +92,7 @@ export let questionRegistry = {
 		setup: setupClickBtn,
 		check: defaultCheck,
 		afterCorrect(lastElement, numberPicked, currentData) {
-			updateContent(lastElement.querySelector(".dialog p"), ``)
+			updateContent(lastElement.querySelector(".dialog p"), `Jumlah ${currentData.content.part[0]} tambah ${currentData.content.part[1]} ialah ${currentData.answer}`)
 			updateContent(lastElement.querySelectorAll(".circuleAns")[0], `${numberPicked}`)
 		},
 	},
@@ -101,7 +101,7 @@ export let questionRegistry = {
 		setup: setupClickBtn,
 		check: defaultCheck,
 		afterCorrect(lastElement, numberPicked, currentData) {
-			updateContent(lastElement.querySelector(".dialog p"), `8 perlukan ${currentData.answer} untuk jadi 10`)
+			updateContent(lastElement.querySelector(".dialog p"), `${currentData.content.numberOfBox} perlukan ${currentData.answer} untuk jadi 10`)
 			let grid = document.querySelector(".grid") 
 			let addBox = Array.from({ length: currentData.answer }).map(() => {
 				let box = document.createElement("div")

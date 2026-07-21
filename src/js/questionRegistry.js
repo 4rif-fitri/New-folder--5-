@@ -1,5 +1,5 @@
 import { defaultCheck, updateContent } from "./helper.js";
-import { setupDragDrop } from "./logic/dragDropLogic.js";
+import { setupDragDrop1 } from "./logic/dragDrop1.js";
 import { setupClickBtn } from "./logic/neededLogic.js";
 import { setupPick } from "./logic/pickLogic.js";
 
@@ -16,6 +16,7 @@ import { renderBoxDiagram } from "./render/boxDiagram.js";
 import { renderPopUpDone } from "./render/popUpDone.js";
 import { renderTrueFalse } from "./render/trueFalse.js";
 import { setupTrueFalse } from "./logic/trueFalse.js";
+import { renderDragDrop1 } from "./render/dragDrop1.js";
 
 export let questionRegistry = {
 	pick: {
@@ -118,5 +119,10 @@ export let questionRegistry = {
 		setup: setupClickBtn,
 		check: defaultCheck,
 		afterCorrect: () => {},
+	},
+	dragnDrop1:{
+		render: renderDragDrop1,
+		setup: setupDragDrop1,
+
 	}
 }

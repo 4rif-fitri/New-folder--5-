@@ -31,7 +31,7 @@ a {
 }
 
 .phone {
-	width: 500px;
+	width: 600px;
 	height: 100%;
 	margin: 0 auto;
 	display: flex;
@@ -657,4 +657,44 @@ footer {
 .grid-2{
 	display: grid;
 	grid-template-columns: repeat(2,1fr);
+}
+
+.soft-square{
+	height: 80px;
+	width: 80px;
+	display: grid;
+	place-items: center;
+
+	background: white;
+
+	border: 4px solid #bfc4cb;
+
+	border-radius: 12px;
+
+	font-family: Arial, sans-serif;
+	font-weight: 700;
+	color: #183153;
+
+	cursor: grab;
+	font-size: 18px !important;
+}
+
+.grid-6{
+	display: grid;
+	grid-template-columns: repeat(6,1fr);
+}
+.grid-4{
+	display: grid;
+	grid-template-columns: repeat(4,1fr);
+}
+.col-2{
+	grid-column: span 2;
+}
+.desh{
+	padding: 0.5rem;
+	border: 2px solid var(--gray);
+	height: max-content;
+}
+.dropZone1{
+	gap: 0.5rem;
 }

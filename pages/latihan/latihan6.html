@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="../../src/style/style.css">
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Math&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+		rel="stylesheet">
+	<style>
+		.dragging {
+			position: fixed;
+			z-index: 9999;
+			pointer-events: none;
+			cursor: grabbing;
+			aspect-ratio: 1 /1;
+		}
+
+		.zone {
+			background: #eee;
+			border: 2px solid #999;
+			transition: .2s;
+			height: 100px !important;
+		}
+
+		.zone.drag-over {
+			background: #ffe9a8;
+			border-color: #ff9800;
+			transform: scale(1.03);
+		}
+		.cookies:hover{
+			cursor: grab;
+		}
+		.zone.btnAns h320000{
+			width: 90px !important;
+			font-size: unset !important;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="phone">
+			<header>
+
+				<div>
+					<a href="./index.html">
+						<p class="x">x</p>
+					</a>
+					<div class="bar">
+						<div class="barFill"></div>
+					</div>
+					<p></p>
+				</div>
+
+			</header>
+			<main>
+				<div id="viewport">                                                 
+					<div id="wrapper">
+
+					</div>
+				</div>
+			</main>
+			<footer>
+				<h2 class="textFooter"></h2>
+				<button class="btnNext soft-box hidden">NEXT</button>
+				<button class="btnCheck soft-box">CHECK</button>
+				<button class="btnContinue soft-box hidden">CONTINUE</button>
+			</footer>
+		</div>
+	</div>
+	<script type="module">
+		import { questionRegistry } from "../../src/js/questionRegistry.js"
+		import { showWrong, showCorrect, resetContentFooter, PopUpDone } from "../../src/js/helper.js"
+
+		let json = [
+			{
+				text: "dragnDrop1",
+				type: "dragnDrop1",
+				content: {
+
+				},
+				options: [5,6,5,10],
+				answer: [5,5,6,10],
+			},
+			{
+				text: "dragnDrop1",
+				type: "dragnDrop1",
+				content: {
+
+				},
+				options: [5,6,5,10],
+				answer: [5,5,6,10],
+			},
+			{
+				text: "dragnDrop1",
+				type: "dragnDrop1",
+				content: {
+
+				},
+				options: [5,6,5,10],
+				answer: [5,5,6,10],
+			},
+			{
+				text: "dragnDrop1",
+				type: "dragnDrop1",
+				content: {
+
+				},
+				options: [5,6,5,10],
+				answer: [5,5,6,10],
+			},
+			{
+				text: "dragnDrop1",
+				type: "dragnDrop1",
+				content: {
+
+				},
+				options: [5,6,5,10],
+				answer: [5,5,6,10],
+			},
+		]
+
+		let ui = {
+			barFill: document.querySelector(".barFill"),
+			viewport: document.getElementById("viewport"),
+			btnCheck: document.querySelector(".btnCheck"),
+			btnNext: document.querySelector(".btnNext"),
+			btnContinue: document.querySelector(".btnContinue"),
+			footer: document.querySelector("footer"),
+			textFooter: document.querySelector(".textFooter"),
+		}
+
+		let state = {
+			currentData: null,
+			index: 0,
+			numberPicked: null,
+			isReset: false,
+			question: null,
+			lenghtData: json.length
+		}
+
+
+
+
+		let hanldeCheck = () => {
+			if (state.numberPicked == null || state.isReset == true) return
+			state.isReset = true
+
+			if (state.question.check(state.numberPicked, state.currentData)) {
+				console.log("BETUL");
+
+				let lastElement = document.querySelector(".content:last-child");
+
+				showCorrect(ui)
+				state.question?.afterCorrect(lastElement, state.numberPicked, state.currentData)
+
+
+				if (lastElement) {
+					lastElement.querySelectorAll(".btnAns, .eqn").forEach(el => {
+						el.style.pointerEvents = "none";
+					});
+				}
+
+			} else {
+				console.log("SALAH");
+
+				showWrong(ui)
+			}
+		}
+
+		let hanldeContinue = () => {
+			resetContentFooter(ui)
+
+			if (state.numberPicked == state.currentData.answer) {
+				ui.barFill.style.width = `${(state.index / state.lenghtData) * 100}%`
+				main()
+			} else {
+				let allElements = document.querySelectorAll(".higlight");
+				let lastElement = allElements[allElements.length - 1];
+				lastElement.classList.remove("higlight");
+			}
+
+			state.numberPicked = null;
+			state.isReset = false
+		}
+
+		let main = (data = json[state.index++]) => {
+
+			if (state.index >= state.lenghtData + 1) {
+				PopUpDone()
+				return
+			}
+
+			state.currentData = data
+			state.question = questionRegistry[state.currentData.type];
+
+			let dialog = document.createElement("div");
+			dialog.className = "content fadeIn";
+
+			wrapper.innerHTML = ""
+			
+			dialog.innerHTML = state.question.render(data);
+			wrapper.appendChild(dialog);
+
+			state.question.setup(value => state.numberPicked = value, () => !state.isReset);
+		}
+		main()
+
+		ui.btnCheck.addEventListener("click", hanldeCheck)
+		ui.btnContinue.addEventListener("click", hanldeContinue)
+
+		let current = null;
+		let home = null;
+		let offsetX = 0;
+		let offsetY = 0;
+		const zones = document.querySelectorAll(".zone");
+
+		function move(e) {
+			if (!current) return;
+
+			current.style.left = (e.clientX - offsetX) + "px";
+			current.style.top = (e.clientY - offsetY) + "px";
+
+			zones.forEach(z => z.classList.remove("drag-over"));
+
+			const target = document.elementFromPoint(e.clientX, e.clientY);
+			const zone = target?.closest(".zone");
+
+			if (zone) zone.classList.add("drag-over");
+		
+		}
+
+		function enable(el) {
+			console.log("pointer down");
+
+			el.addEventListener("pointerdown", e => {
+				
+				current = el;
+				home = el.parentElement;
+				const r = el.getBoundingClientRect();
+
+				offsetX = e.clientX - r.left;
+				offsetY = e.clientY - r.top;
+
+				el.classList.add("dragging");
+				document.body.appendChild(el);
+				move(e);
+				el.setPointerCapture(e.pointerId);
+			});
+		}
+
+		document.addEventListener("pointerup", e => {
+			zones.forEach(z => z.classList.remove("drag-over"));
+
+			if (!current) return;
+
+			const target = document.elementFromPoint(e.clientX, e.clientY);
+			const zone = target ? target.closest(".zone") : null;
+
+			current.classList.remove("dragging");
+			current.style.left = "";
+			current.style.top = "";
+
+			if (zone) zone.appendChild(current);
+			else home.appendChild(current);
+			current = null;
+			home = null;
+		});
+
+		document.addEventListener("pointermove", move);
+		document.querySelectorAll(".btnAns").forEach(enable);
+
+	</script>
+</body>
+
+</html>

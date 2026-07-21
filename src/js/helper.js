@@ -135,7 +135,6 @@ export function speak(text) {
 
 		speech.lang = "id-ID";
 		speech.rate = "1.1"
-		nextBtn.disabled = true;
 
 		speech.onend = () => {
 			nextBtn.disabled = false;

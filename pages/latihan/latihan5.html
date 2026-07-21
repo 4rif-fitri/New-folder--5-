@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="../../src/style/style.css">
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Math&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+		rel="stylesheet">
+
+</head>
+
+<body>
+	<div class="container">
+		<div class="phone">
+			<header>
+
+				<div>
+					<a href="./index.html">
+						<p class="x">x</p>
+					</a>
+					<div class="bar">
+						<div class="barFill"></div>
+					</div>
+					<p></p>
+				</div>
+
+			</header>
+			<main>
+				<div id="viewport">                                                 
+					<div id="wrapper">
+
+					</div>
+				</div>
+			</main>
+			<footer>
+				<h2 class="textFooter"></h2>
+				<button class="btnNext soft-box hidden">NEXT</button>
+				<button class="btnCheck soft-box">CHECK</button>
+				<button class="btnContinue soft-box hidden">CONTINUE</button>
+			</footer>
+		</div>
+	</div>
+	 <script type="module">
+		import { questionRegistry } from "../../src/js/questionRegistry.js"
+		import { showWrong, showCorrect, resetContentFooter, PopUpDone } from "../../src/js/helper.js"
+
+		let json = [
+			{
+				text: "True or False",
+				type: "trueFalse",
+				content: {
+					nums: [5,5,10]
+				},
+				options: ["True", "False"],
+				answer: "True",
+			},{
+				text: "True or False",
+				type: "trueFalse",
+				content: {
+					nums: [5,5,10]
+				},
+				options: ["True", "False"],
+				answer: "True",
+			},
+			{
+				text: "True or False",
+				type: "trueFalse",
+				content: {
+					nums: [5,5,10]
+				},
+				options: ["True", "False"],
+				answer: "True",
+			},{
+				text: "True or False",
+				type: "trueFalse",
+				content: {
+					nums: [5,5,10]
+				},
+				options: ["True", "False"],
+				answer: "True",
+			},{
+				text: "True or False",
+				type: "trueFalse",
+				content: {
+					nums: [5,5,10]
+				},
+				options: ["True", "False"],
+				answer: "True",
+			},
+
+		]
+
+		let ui = {
+			barFill: document.querySelector(".barFill"),
+			viewport: document.getElementById("viewport"),
+			btnCheck: document.querySelector(".btnCheck"),
+			btnNext: document.querySelector(".btnNext"),
+			btnContinue: document.querySelector(".btnContinue"),
+			footer: document.querySelector("footer"),
+			textFooter: document.querySelector(".textFooter"),
+		}
+
+		let state = {
+			currentData: null,
+			index: 0,
+			numberPicked: null,
+			isReset: false,
+			question: null,
+			lenghtData: json.length
+		}
+
+		let hanldeCheck = () => {
+			if (state.numberPicked == null || state.isReset == true) return
+			state.isReset = true
+
+			if (state.question.check(state.numberPicked, state.currentData)) {
+				console.log("BETUL");
+
+				let lastElement = document.querySelector(".content:last-child");
+
+				showCorrect(ui)
+				state.question?.afterCorrect(lastElement, state.numberPicked, state.currentData)
+
+
+				if (lastElement) {
+					lastElement.querySelectorAll(".btnAns, .eqn").forEach(el => {
+						el.style.pointerEvents = "none";
+					});
+				}
+
+			} else {
+				console.log("SALAH");
+
+				showWrong(ui)
+			}
+		}
+
+		let hanldeContinue = () => {
+			resetContentFooter(ui)
+
+			if (state.numberPicked == state.currentData.answer) {
+				ui.barFill.style.width = `${(state.index / state.lenghtData) * 100}%`
+				main()
+			} else {
+				let allElements = document.querySelectorAll(".higlight");
+				let lastElement = allElements[allElements.length - 1];
+				lastElement.classList.remove("higlight");
+			}
+
+			state.numberPicked = null;
+			state.isReset = false
+		}
+
+		let main = (data = json[state.index++]) => {
+
+			if (state.index >= state.lenghtData + 1) {
+				PopUpDone()
+				return
+			}
+
+			state.currentData = data
+			state.question = questionRegistry[state.currentData.type];
+
+			let dialog = document.createElement("div");
+			dialog.className = "content fadeIn";
+
+			wrapper.innerHTML = ""
+			dialog.innerHTML = state.question.render(data);
+			wrapper.appendChild(dialog);
+
+			state.question.setup(value => state.numberPicked = value, () => !state.isReset);
+		}
+		main()
+
+		ui.btnCheck.addEventListener("click", hanldeCheck)
+		ui.btnContinue.addEventListener("click", hanldeContinue)
+
+	</script>
+</body>
+
+</html>

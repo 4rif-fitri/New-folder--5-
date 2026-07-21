@@ -20,7 +20,9 @@ export function setupClickBtn(callback, canPick) {
 			elementPicked = e.target;
 			
 			elementPicked.classList.add("higlight");
-			let value = Number(b.querySelector("h2").textContent);
+			// mybe numbeer or string
+			let value = (b.querySelector("h2").textContent);
+			
 			callback(value);
 		})
 	})

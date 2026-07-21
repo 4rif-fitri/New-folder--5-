@@ -14,6 +14,8 @@ import { renderSummery } from "./render/summery.js";
 import { renderPecahTerbalik } from "./render/PecahTerbalik.js";
 import { renderBoxDiagram } from "./render/boxDiagram.js";
 import { renderPopUpDone } from "./render/popUpDone.js";
+import { renderTrueFalse } from "./render/trueFalse.js";
+import { setupTrueFalse } from "./logic/trueFalse.js";
 
 export let questionRegistry = {
 	pick: {
@@ -111,4 +113,10 @@ export let questionRegistry = {
 			})
 		},
 	},
+	trueFalse:{
+		render: renderTrueFalse,
+		setup: setupClickBtn,
+		check: defaultCheck,
+		afterCorrect: () => {},
+	}
 }

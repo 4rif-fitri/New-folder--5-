@@ -16,6 +16,6 @@ export function renderPick(data) {
 				</div>
 			</div>
 
-		</div>
+		</div>        
     `
 }

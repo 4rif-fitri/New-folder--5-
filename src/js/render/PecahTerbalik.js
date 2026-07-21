@@ -1,6 +1,6 @@
 export function renderPecahTerbalik(data) {
 	return `
-				<div class="icon">
+		<div class="icon">
 			<div class="circule"></div>
 		</div>
 		<div>

@@ -654,3 +654,7 @@ footer {
 	top: 220px;
 	left: 350px;
 }
+.grid-2{
+	display: grid;
+	grid-template-columns: repeat(2,1fr);
+}
